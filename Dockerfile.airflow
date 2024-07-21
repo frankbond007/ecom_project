@@ -1,0 +1,17 @@
+FROM apache/airflow:2.5.1
+
+# Install necessary packages
+USER root
+RUN apt-get update && apt-get install -y gcc
+
+# Switch back to the airflow user
+USER airflow
+
+# Install Python dependencies
+RUN pip install clickhouse-driver
+RUN pip install mysql-connector-python
+
+# Copy the entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
